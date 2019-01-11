@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>217846 217862</title>
+</head>
+
+<body>
+    <header>
+        <h2>Authors of the document:</h2>
+        <p>Łukasz Starosta 217862</p>
+        <p>Piotr Karczewski 217846</p>
+    </header>
+    <main>
+        <h1>Theoretical part</h1>
+        <h2>Domain Name System</h2>
+        <p>The Domain Name System (DNS) is a hierarchical decentralized naming system for computers, services, or other
+            resources connected to the Internet or a private network. It associates various information with domain
+            names assigned to each of the participating entities. Most prominently, it translates more readily
+            memorized domain names to the numerical IP addresses needed for locating and identifying computer services
+            and devices with the underlying network protocols.
+        </p>
+        <h3>Top level domains</h3>
+        <h4>Types of top-level domains:</h4>
+        <ul>
+            <li><b>Infrastructure top-level domain</b> (ARPA): This group consists of one
+                domain, the Address and Routing Parameter Area.</li>
+            <li><b>Generic top-level domains</b> (gTLD): Top-level domains with three or more characters</li>
+            <li><b>Restricted generic top-level domains</b> (grTLD): These domains are managed under official ICANN
+                accredited
+                registrars.</li>
+            <li><b>Sponsored top-level domains</b> (sTLD): These domains are proposed and sponsored by private agencies
+                or
+                organizations that establish and enforce rules restricting the eligibility to use the TLD. Use is based
+                on community
+                theme concepts; these domains are managed under official ICANN accredited registrars.</li>
+            <li><b>Country-code
+                    top-level domains</b> (ccTLD): Two-letter domains established for countries
+                or territories.
+                With some historical exceptions, the code for any territory is the same as its two-letter
+                ISO 3166 code.
+                <ul>
+                    <li><b>Internationalized country code top-level domains</b> (IDN ccTLD): ccTLDs in non-Latin
+                        character sets (e.g., Arabic, Cyrillic, Hebrew, or Chinese).</li>
+                </ul>
+            </li>
+            <li><b>Test top-level domains</b> (tTLD): These domains were installed
+                under .test for testing purposes in the IDN development
+                process; these domains are not present in the root zone.</li>
+        </ul>
+        <h4>Examples of top-level domains:</h4>
+        <ul>
+            <li><b>.com</b> - an open TLD. Any person or entity is permitted to register.</li>
+            <li><b>,org</b> - an open TLD. Any person or entity is permitted to register.</li>
+            <li><b>.net</b> - an open TLD. Any person or entity is permitted to register.</li>
+            <li><b>int</b> - strictly limited to organizations, offices, and programs endorsed by a treaty between two
+                or more nations. </li>
+            <li><b>.edu</b> - limited to specific higher educational institutions such as, but not limited to, trade
+                schools and universities.</li>
+            <li><b>.gov</b> - limited to United States governmental entities and agencies as well as qualifying state,
+                county and local municipal government agencies.</li>
+            <li><b>.mil</b> - limited to use by the United States military.</li>
+        </ul>
+        <h3>DNS Hierarchy</h3>
+        <p>
+            Domain Names are hierarchical and each part of a domain name is referred to as either the root, top level,
+            second level or as a sub-domain. To allow computers to properly recognize a fully qualified domain name,
+            dots are placed between each part of the name. All resolvers treat dots as separators between the parts of
+            the domain name. The fully qualified domain name is split into pieces at the dots and the tree is searched
+            starting from the root of the hierarchichal tree structure. All resolvers start their lookups at the root,
+            therefore the root is represented by a dot and is often assumed to be there, even when not shown. The
+            resolver navigates it's way down the tree until it gets to the last, left-most part of the domain name and
+            then looks within that location for the information it needs. Information about a host such as its name,
+            its IP address and occasionally even it's function are stored in one or more zone files which together
+            compose a larger zone often referred to as a domain.
+        </p>
+        <img src="images/dns-hierarchy.png" alt="" />
+        <p>
+            Within the hierarchy, you will start resolution at the top level domain, work your way down to the
+            second-level domain, then through zero, one or more sub-domains until you get to the actual host name you
+            want to resolve into an IP address.
+        </p>
+        <h3>DNS Queries</h3>
+        <p>There are three types of queries in the DNS system:</p>
+        <ul>
+            <li>
+                <h4>Recursive Query</h4>
+                <p>
+                    In a recursive query, a DNS client provides a hostname, and the DNS Resolver “must” provide an
+                    answer—it responds with either a relevant resource record, or an error message if it can't be
+                    found.
+                    The resolver starts a recursive query process, starting from the DNS Root Server, until it finds
+                    the
+                    Authoritative Name Server (for more on Authoritative Name Servers see DNS Server Types below) that
+                    holds the IP address and other information for the requested hostname.
+                </p>
+            </li>
+            <li>
+                <h4>Iterative Query</h4>
+                <p>
+                    In an iterative query, a DNS client provides a hostname, and the DNS Resolver returns the best
+                    answer it can. If the DNS resolver has the relevant DNS records in its cache, it returns them. If
+                    not, it refers the DNS client to the Root Server, or another Authoritative Name Server which is
+                    nearest to the required DNS zone. The DNS client must then repeat the query directly against the
+                    DNS server it was referred to.
+                </p>
+            </li>
+            <li>
+                <h4>Non-Recursive Query</h4>
+                <p>
+                    A non-recursive query is a query in which the DNS Resolver already knows the answer. It either
+                    immediately returns a DNS record because it already stores it in local cache, or queries a DNS Name
+                    Server which is authoritative for the record, meaning it definitely holds the correct IP for that
+                    hostname. In both cases, there is no need for additional rounds of queries (like in recursive or
+                    iterative queries). Rather, a response is immediately returned to the client.
+                </p>
+            </li>
+        </ul>
+        <h3>DNS Delegation</h3>
+        <p>
+            The DNS gives you the option to separate the namespace into different DNS zones. You can seve them, copy
+            them or distribute it to other DNS servers. There are few reasons to do it:
+        </p>
+        <ul>
+            <li>
+                You would like to load balance by dividing one large zone into more, smaller zones. This will increase
+                the DNS resolution and add extra security.
+            </li>
+            <li>
+                You desire to delegate management of part of your DNS namespace to another location or department in
+                your organization.
+            </li>
+            <li>
+                Use the DNS Delegation for adding various subdomains. Use them for different purposes.
+            </li>
+            <li>
+                Delegate control of part of your DNS namespace to another location.
+            </li>
+            <li>
+                You can restructure your namespace and make other DNS servers responsible for a part of the whole
+                information.
+            </li>
+        </ul>
+        <p>
+            When you create new DNS zone, you must have delegation records in other zones that point toward the
+            authoritative DNS servers for the new one.
+        </p>
+        <p>
+            The resource record information of the new DNS zone will be stored in a DNS server, which will be the
+            primary master for that zone. You can improve the security and duplicate the zone information to another
+            DNS server, later on.
+        </p>
+        <h3>DNS Record</h3>
+        <p>
+            The Domain Name System specifies a set of various types of resource records (RRs), which are the basic
+            information elements of the domain name system. Each record has a type (name and number), an expiration
+            time (time to live), a class, and type-specific data. Resource records of the same type are described as a
+            resource record set (RRset). The order of resource records in a set, which is returned by a resolver to an
+            application, is undefined, but often servers implement round-robin ordering to achieve load balancing. The
+            Domain Name System Security Extensions (DNSSEC), however, work on the complete set of resource record in
+            canonical order.
+        </p>
+        <h4>Resource record fields:</h4>
+        <ul>
+            <li><b>NAME</b> - Name of the node to which this record pertains. It's length is variable.</li>
+            <li><b>TYPE</b> - Type of RR in numeric form. It lenght is 2 octets.</li>
+            <li><b>CLASS</b> - Class code. It's legth is 2 octets.</li>
+            <li><b>TTL</b> - Count of seconds that the RR stays valid. It's value is 4 octets.</li>
+            <li><b>RDLENGHT</b> - Length of RDATA field (specified in octets). Its length is 2.</li>
+            <li><b>RDATA</b> - Additional PR-specific data. It's is RDLENGHT.</li>
+        </ul>
+        <h4>DNS Record Types:</h4>
+        <ul>
+            <li><b>Address Mapping record (A Record)</b> - also known as a DNS host record, stores a hostname
+                and its corresponding IPv4 address.</li>
+            <li><b>IP Version 6 Address record (AAAA Record)</b> - stores a hostname and its corresponding IPv6
+                address.</li>
+            <li><b>Canonical Name record (CNAME Record)</b> - can be used to alias a hostname to another
+                hostname. When a DNS client requests a record that contains a CNAME, which points to another hostname,
+                the DNS resolution process is repeated with the new hostname.</li>
+            <li><b>Mail exchanger record (MX Record)</b> - specifies an SMTP email server for the domain, used
+                to route outgoing emails to an email server.</li>
+            <li><b>Name Server records (NS Record)</b> - specifies that a DNS Zone, such as “example.com” is
+                delegated to a specific Authoritative Name Server, and provides the address of the name server.</li>
+            <li><b>Reverse-lookup Pointer records (PTR Record)</b> - allows a DNS resolver to provide an IP
+                address and receive a hostname (reverse DNS lookup).</li>
+            <li><b>Certificate record (CERT Record)</b> - stores encryption certificates—PKIX, SPKI, PGP, and
+                so on.</li>
+            <li><b>Service Location (SRV Record)</b> - a service location record, like MX but for other
+                communication protocols. </li>
+            <li><b>Text Record (TXT Record)</b> - typically carries machine-readable data such as opportunistic
+                encryption, sender policy framework, DKIM, DMARC, etc.</li>
+            <li><b>Start of Authority (SOA Record)</b> - this record appears at the beginning of a DNS zone
+                file, and indicates the Authoritative Name Server for the current DNS zone, contact details for the
+                domain administrator, domain serial number, and information on how frequently DNS information for this
+                zone should be refreshed.</li>
+        </ul>
+        <h3>Reverse DNS</h3>
+        <p>
+            In computer networks, a reverse DNS lookup or reverse DNS resolution (rDNS) is the querying of the Domain
+            Name System (DNS) to determine the domain name associated with an IP address. he process of reverse
+            resolving an IP address uses PTR records. The reverse DNS database of the Internet is rooted in the arpa
+            top-level domain.
+        </p>
+        <p>
+            Although the informational RFC 1912[1] (Section 2.1) recommends that "every Internet-reachable host should
+            have a name" and that "for every IP address, there should be a matching PTR record," it is not an Internet
+            Standard requirement, and not all IP addresses have a reverse entry.
+        </p>
+        <h3>Non-authoritative Answer</h3>
+        <p>
+            Non-authoritative name servers do not contain original source files of domain’s zone. They have a cache
+            file for the domains that is constructed from all the DNS lookups done previously. If a DNS server
+            responded for a DNS query, which doesn’t have original file, is known as a Non-authoritative answer.
+        </p>
+        <h3>Authoritative Answer</h3>
+        <p>
+            An authoritative name server is a name server that has the original source files of a domain zone files.
+            The is where domain administrator has configured the DNS records for a domain. Authoritative DNS server can
+            be master DNS server or its slaves. If you directly query to these DNS servers, they will return
+            authoritative answer because they have the original files of domain zone.
+        </p>
+        <h3>DNS Resolver</h3>
+        <p>
+            Domain name resolvers determine the domain name servers responsible for the domain name in question by a
+            sequence of queries starting with the right-most (top-level) domain label. DNS resolvers are classified by
+            a variety of query methods, such as recursive, non-recursive, and iterative.
+        </p>
+        <ul>
+            <li>
+                <b>non-recursive query</b> - resolver queries a DNS server that provides a record either for which the
+                server is authoritative, or it provides a partial result without querying other servers. In case of a
+                caching DNS resolver, the non-recursive query of its local DNS cache delivers a result and reduces the
+                load on upstream DNS servers by caching DNS request records for a period of time after an initial
+                response from upstream DNS servers.
+            </li>
+            <li>
+                <b>recursiver query</b> - resolver queries a single DNS server, which may in turn query other DNS
+                servers on behalf of the requester. For example, a simple stub resolver running on a home router
+                typically makes a recursive query to the DNS server run by the user's ISP. A recursive query is one for
+                which the DNS server answers the query completely by querying other name servers as needed. In typical
+                operation, a client issues a recursive query to a caching recursive DNS server, which subsequently
+                issues non-recursive queries to determine the answer and send a single answer back to the client. The
+                resolver, or another DNS server acting recursively on behalf of the resolver, negotiates use of
+                recursive service using bits in the query headers. DNS servers are not required to support recursive
+                queries.
+            </li>
+            <li>
+                <b>iterative query</b> - resolver queries a chain of one or more DNS servers. Each server refers the
+                client to the next server in the chain, until the current server can fully resolve the request. For
+                example, a possible resolution of www.example.com would query a global root server, then a "com"
+                server, and finally an "example.com" server.
+            </li>
+
+        </ul>
+        <!--
+        <p>
+            Assuming the resolver has no cached records to accelerate the process, the resolution process starts with a
+            query to one of the root servers. In typical operation, the root servers do not answer directly, but
+            respond with a referral to more authoritative servers, e.g., a query for "www.wikipedia.org" is referred to
+            the org servers. The resolver now queries the servers referred to, and iteratively repeats this process
+            until it receives an authoritative answer. The diagram illustrates this process for the host that is named
+            by the fully qualified domain name "www.wikipedia.org".
+        </p>
+        <img src="images/dns-resolver.png" alt="" />
+        <p>
+            This mechanism would place a large traffic burden on the root servers, if every resolution on the Internet
+            required starting at the root. In practice caching is used in DNS servers to off-load the root servers, and
+            as a result, root name servers actually are involved in only a relatively small fraction of all requests.
+        </p>
+        -->
+        <h3>DNS Caching</h3>
+        <p>
+            To improve efficiency, reduce DNS traffic across the Internet, and increase performance in end-user
+            applications, the Domain Name System supports DNS cache servers which store DNS query results for a period
+            of time determined in the configuration (time-to-live) of the domain name record in question. Typically,
+            such caching DNS servers also implement the recursive algorithm necessary to resolve a given name starting
+            with the DNS root through to the authoritative name servers of the queried domain. With this function
+            implemented in the name server, user applications gain efficiency in design and operation.
+        </p>
+        <h3> file: /etc/hosts</h3>
+        <p>
+            Modifying your hosts file enables you to override the domain name system (DNS) for a domain on a specific
+            machine. DNS management is useful when you want to test your site without the test link prior to going live
+            with SSL, verify that an alias site works prior to DNS changes, and for other DNS-related reasons.
+        </p>
+        <p>
+            This file contains the mappings of IP addresses to host names. Each entry should be kept on an individual
+            line. The IP address should be placed in the first column followed by the corresponding host name. The IP
+            address and the host name should be separated by at least one space.
+        </p>
+        <p>
+            For example:
+        </p>
+        <p>
+            102.54.94.97 rhino.acme.com # source server
+        </p>
+        <p>
+            38.25.63.10 x.acme.com # x client host
+        </p>
+        <h2>Mail system</h2>
+        <h3>Protocols:</h3>
+        <ul>
+            <li>
+                <b>Post Office Protocol 3 (POP3)</b> - a mail access protocol used by a client application to read
+                messages from the mail server. Received messages are often deleted from the server. POP supports simple
+                download-and-delete requirements for access to remote mailboxes (termed maildrop in the POP RFC's).
+            </li>
+            <li>
+                <b>Internet Message Access Protocol (IMAP)</b> - provides features to manage a mailbox from multiple
+                devices. Small portable devices like smartphones are increasingly used to check email while travelling,
+                and to make brief replies, larger devices with better keyboard access being used to reply at greater
+                length. IMAP shows the headers of messages, the sender and the subject and the device needs to request
+                to download specific messages. Usually mail is left in folders in the mail server.
+            </li>
+            <li>
+                <b>Messaging Application Programming Interface (MAPI)</b> - used by Microsoft Outlook to communicate to
+                Microsoft Exchange Server - and to a range of other email server products such as Axigen Mail Server,
+                Kerio Connect, Scalix, Zimbra, HP OpenMail, IBM Lotus Notes, Zarafa, and Bynari where vendors have
+                added MAPI support to allow their products to be accessed directly via Outlook.
+            </li>
+            <li>
+                <b>Simple Mail Transfer Protocol (SMTP)</b> - an Internet standard for email transmission. First
+                defined by RFC 821 in 1982, it was updated in 2008 with Extended SMTP additions by RFC 5321; which is
+                the protocol in widespread use today. Mail servers and other mail transfer agents use SMTP to send and
+                receive mail messages on TCP port 25. Although proprietary systems such as Microsoft Exchange and IBM
+                Notes and webmail systems such as Outlook.com, Gmail and Yahoo! Mail may use their own non-standard
+                protocols internally, all use SMTP when sending or receiving email from outside their own systems.
+            </li>
+        </ul>
+        <h3>Basic commands</h3>
+        <h4>Invoking Mail To Send Messages</h4>
+        <p>To invoke the UNIX mail utility program to send messages, type</p>
+        <p><code>mailx email-names</code></p>
+        <p>or</p>
+        <p><code>mailx -s subject email-names</code></p>
+        <p>where email-names is a list of electronic mail names of people to whom you wish to send the message and
+            subject is the subject (or title) of the message being sent. The email name may be as simple as name or
+            name@machine or may require the name followed by a fully qualified host/domain name (e.g.
+            name@CS.ColoState.Edu). If the mailx command does not prompt you for a subject (which is nice to include
+            for the receiver of the mail), it can be included with the -s option.
+        </p>
+        <p>Tilde escapes are entered at the start of a text line (when entering mail message text) to perform some
+            useful operations. Hit the Return key after entering a tilde escape sequence/command.
+        </p>
+        <center>
+            <table border="">
+                <tbody>
+                    <tr>
+                        <th align="LEFT"><tt>~?</tt>
+                        </th>
+                        <td> <i>to list all tilde (<tt>~ </tt>) escapes
+                                (i.e. a help display)</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~p</tt>
+                        </th>
+                        <td> <i>to list the text of the message typed in so far</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~s subj</tt>
+                        </th>
+                        <td> <i>to set or change the current subject field to <tt>subj</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~t enams </tt>
+                        </th>
+                        <td> <i>to add the <tt>enams</tt> list of email names
+                                to the current list of <tt>email-names</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~h</tt>
+                        </th>
+                        <td> <i>to list and to modify the <tt>subject</tt> and/or the
+                                <tt>email-names</tt> list</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~! cmd </tt>
+                        </th>
+                        <td> <i>to execute the UNIX command <tt>cmd</tt>
+                                from within <tt>mailx</tt> utility</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~r fname </tt>
+                        </th>
+                        <td> <i>to read the file <tt>fname</tt>
+                                into the message at current position</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~v</tt>
+                        </th>
+                        <td> <i>to invoke the <tt>vi</tt> editor
+                                on the message text to edit it</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>~q</tt>
+                        </th>
+                        <td> <i>to exit <tt>mailx</tt>, and
+                                <br>to save the current
+                                message in the file named <tt>dead.letter</tt>
+                                in your home directory</i>
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </center>
+        <h4>Invoking Mail to Receive Messages</h4>
+        <p>To invoke the UNIX mail utility program to receive messages, type</p>
+        <p><code>mailx</code></p>
+        <p>A response "No mail for user_name" means there are no new or old saved mail messages. Entering the utility
+            means you have mail (when you log in the system informs you if you have mail).
+        </p>
+        <p>The following commands may be used within mailx:</p>
+        <center>
+            <table border="">
+                <tbody>
+                    <tr>
+                        <th align="LEFT"><tt>h</tt>
+                        </th>
+                        <td> <i>to list the headers of the mail messages in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>&lt;Return&gt;</tt>
+                        </th>
+                        <td> <i>to continue the current or display (print) the next
+                                mail message in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>+</tt> <i>or</i> <tt>n</tt>
+                        </th>
+                        <td> <i>to display (print) the next mail message in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>-</tt> <i>or</i> <tt>z</tt>
+                        </th>
+                        <td> <i>to display (print) the previous mail message
+                                in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>#</tt>
+                        </th>
+                        <td> <i>to display (print) the message numbered <tt>#</tt>
+                                in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>t MSGS</tt>
+                        </th>
+                        <td> <i>to display (print) the messages indicated by the
+                                message range <tt>MSGS</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>d MSGS</tt>
+                        </th>
+                        <td> <i>to delete the messages indicated by the message range
+                                <tt>MSGS</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>s MSGS fname</tt>
+                        </th>
+                        <td> <i>to saved the messages indicated by the message range
+                                <tt>MSGS</tt> to the file named <tt>fname</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>R msg</tt>
+                        </th>
+                        <td> <i>to reply (and send mail) to the authors of the message
+                                <tt>msg</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>r msg</tt>
+                        </th>
+                        <td> <i>to reply (and send mail) to all the recipients of
+                                the message <tt>msg</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>m name</tt>
+                        </th>
+                        <td> <i>to send mail message to person named <tt>name</tt>
+                                and enter current message text</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>top MSGS</tt>
+                        </th>
+                        <td> <i>to list the top 5 lines of each message indicated
+                                by the message range <tt>MSGS</tt></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>q</tt>
+                        </th>
+                        <td> <i>to quit and preserve all unread messages in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="LEFT"><tt>x</tt>
+                        </th>
+                        <td> <i>to quit and preserve all messages in your mailbox</i>
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </center>
+        <h3>Network News Transfer Protocol</h3>
+        <p>
+            The Network News Transfer Protocol (NNTP) is an application protocol used for transporting Usenet news
+            articles (netnews) between news servers and for reading and posting articles by end user client
+            applications.
+        </p>
+        <h3>Mailbox</h3>
+        <p>
+            An email box (also email mailbox, e-mailbox) is the destination to which electronic mail messages are
+            delivered. It is the equivalent of a letter box in the postal system.
+        </p>
+        <h4>Aliases</h4>
+        <p>
+            Aliases are additional names of mailboxes. You can use them to assign multiple addresses to a single
+            mailbox. For example, you can add the advertising@ alias for an employee who manages advertising. After
+            this, emails sent to the addresses advertising@yourdomain.com will be delivered to this employee's mailbox.
+        </p>
+        <h4>Address</h4>
+        <p>
+            An email address identifies an email box to which email messages are delivered. An email address such as
+            John.Smith@example.com is made up of a local-part, an @ symbol, then a case-insensitive domain. Although
+            the standard requires[1] the local part to be case-sensitive, it also urges that receiving hosts deliver
+            messages in a case-independent fashion,[2] e.g., that the mail system at example.com treat John.Smith as
+            equivalent to john.smith; some mail systems even treat them as equivalent to johnsmith.[3] Mail systems
+            often limit their users' choice of name to a subset of the technically valid characters, and in some cases
+            also limit which addresses it is possible to send mail to.
+        </p>
+        <h3>E-mail structure</h3>
+        <h4>Message header</h4>
+        <p>
+            Each message has exactly one header (the "header section" of the message, according to the specification),
+            which is structured into fields ("header fields"). Each field has a name ("field name" or "header field
+            name") and a value ("field body" or "header field body").
+        </p>
+        <p>
+            nformally, each line of text in the header that begins with a non-whitespace printable character begins a
+            separate field. The field name starts in the first character of the line and ends before the <b>separator</b>
+            character ":". The separator is then followed by the field value (the "body" of the field). The value is
+            continued onto subsequent lines if those lines have a space or tab as their first character.
+        </p>
+        <p>
+            The message header must include at least the following fields:
+        </p>
+        <ul>
+            <li>
+                <b>From:</b> The email address, and optionally the name of the author(s). In many email clients not
+                changeable except through changing account settings.
+            </li>
+            <li>
+                <b>Date:</b> The local time and date when the message was written. Like the From: field, many email
+                clients fill this in automatically when sending. The recipient's client may then display the time in
+                the format and time zone local to them.
+            </li>
+        </ul>
+        <p>
+            Common header fields for email include:
+        </p>
+        <ul>
+            <li>
+                <b>To:</b> The email address(es), and optionally name(s) of the message's recipient(s). Indicates
+                primary recipients (multiple allowed), for secondary recipients see Cc: and Bcc: below.
+            </li>
+            <li>
+                <b>Subject:</b> A brief summary of the topic of the message. Certain abbreviations are commonly used in
+                the subject, including "RE:" and "FW:".
+            </li>
+            <li>
+                <b>Cc: Carbon coply:</b> Many email clients will mark email in one's inbox differently depending on
+                whether they are in the To: or Cc: list. (Bcc: Blind carbon copy; addresses are usually only specified
+                during SMTP delivery, and not usually listed in the message header.)
+            </li>
+            <li>
+                <b>Content-Type:</b> Information about how the message is to be displayed, usually a MIME type.
+            </li>
+            <li>
+                <b>Precedence:</b> commonly with values "bulk", "junk", or "list"; used to indicate that automated
+                "vacation" or "out of office" responses should not be returned for this mail, e.g. to prevent vacation
+                notices from being sent to all other subscribers of a mailing list. Sendmail uses this field to affect
+                prioritization of queued email, with "Precedence: special-delivery" messages delivered sooner.
+            </li>
+            <li>
+                <b>Message-ID:</b> Also an automatically generated field; used to prevent multiple delivery and for
+                reference in In-Reply-To: (see below).
+            </li>
+            <li>
+                <b>In-Reply-To:</b> Message-ID of the message that this is a reply to. Used to link related messages
+                together. This field only applies for reply messages.
+            </li>
+            <li>
+                <b>References:</b> Message-ID of the message that this is a reply to, and the message-id of the message
+                the previous reply was a reply to, etc.
+            </li>
+            <li>
+                <b>Reply-To:</b> Address that should be used to reply to the message.
+            </li>
+            <li>
+                <b>Sender:</b> Address of the actual sender acting on behalf of the author listed in the From: field
+                (secretary, list manager, etc.).
+            </li>
+            <li>
+                <b>Archived-At:</b> A direct link to the archived form of an individual email message.
+            </li>
+        </ul>
+        <h3>Attachment</h3>
+        <p>
+            An email attachment is a computer file sent along with an email message. One or more files can be attached
+            to any email message, and be sent along with it to the recipient. This is typically used as a simple method
+            to share documents and images. A paper clip icon is the standard indicator for an attachment in an email
+            client.
+        </p>
+        <p>
+            Email standards such as MIME don't specify any file size limits, but in practice email users will find that
+            they can't successfully send very large files across the Internet. This is because of a number of potential
+            limits:
+        </p>
+        <ol>
+            <li>
+                Mail systems often arbitrarily limit the size their users are allowed to submit.
+            </li>
+            <li>
+                A message will often pass through several mail transfer agents to reach the recipient. Each of these
+                has to store the message before forwarding it on, and may therefore also impose size limits.
+            </li>
+            <li>
+                The recipient mail system may reject incoming emails with attachments over a certain size.
+            </li>
+        </ol>
+        <p>
+            The result is that while large attachments may succeed internally within a company or organization, they
+            may not when sending across the Internet.
+        </p>
+        <h3>Content encoding</h3>
+        <p>
+            Internet email was originally designed for 7-bit ASCII.[51] Most email software is 8-bit clean but must
+            assume it will communicate with 7-bit servers and mail readers. The MIME standard introduced character set
+            specifiers and two content transfer encodings to enable transmission of non-ASCII data: quoted printable
+            for mostly 7-bit content with a few characters outside that range and base64 for arbitrary binary data. The
+            8BITMIME and BINARY extensions were introduced to allow transmission of mail without the need for these
+            encodings, but many mail transport agents still do not support them fully. In some countries, several
+            encoding schemes coexist; as the result, by default, the message in a non-Latin alphabet language appears
+            in non-readable form (the only exception is coincidence, when the sender and receiver use the same encoding
+            scheme). Therefore, for international character sets, Unicode is growing in popularity.
+        </p>
+        <h3>Multipurpose Internet Mail Extensions (MIME)</h3>
+        <p>
+            Multipurpose Internet Mail Extensions (MIME) is an Internet standard that extends the format of email to
+            support:
+        </p>
+        <ul>
+            <li>
+                Text in character sets other than ASCII
+            </li>
+            <li>
+                Non-text attachments: audio, video, images, application programs etc.
+            </li>
+            <li>
+                Message bodies with multiple parts
+            </li>
+            <li>
+                Header information in non-ASCII character sets
+            </li>
+        </ul>
+        <h3>Mailing list</h3>
+        <p>
+            An electronic mailing list or email list is a special use of email that allows for widespread distribution
+            of information to many Internet users. It is similar to a traditional mailing list – a list of names and
+            addresses – as might be kept by an organization for sending publications to its members or customers, but
+            typically refers to four things:
+        </p>
+        <ul>
+            <li>a list of email addresses</li>
+            <li>the people ("subscribers") receiving mail at those addresses</li>
+            <li>the publications (email messages) sent to those addresses</li>
+            <li>a reflector, which is a single email address that, when designated as the recipient of a message, will
+                send a copy of that message to all of the subscribers.
+            </li>
+        </ul>
+        <h3>Gate</h3>
+        <p>
+            An email gate is a way for artists to collect information about their audience without the need to charge
+            for the content. The artist may decide to make the whole bundle require an email address, or they may
+            provide some of the bundle totally free, and designate some of the content as requiring personal
+            information.
+        </p>
+        <p>
+            This allows artists to build mailing lists for future releases or concert promotions. The listener is under
+            no obligation to provide this information, and BitTorrent does not collect the information for its own
+            marketing uses.
+        </p>
+        <h3>Security</h3>
+        <p>
+            Email security refers to the collective measures used to secure the access and content of an email account
+            or service. It allows an individual or organization to protect the overall access to one or more email
+            addresses/accounts.
+        </p>
+        <p>
+            An email service provider implements email security to secure subscriber email accounts and data from
+            hackers - at rest and in transit.
+        </p>
+        <p>
+            Email security is a broad term that encompasses multiple techniques used to secure an email service. From
+            an individual/end user standpoint, proactive email security measures include:
+        </p>
+        <ul>
+            <li>Strong passwords</li>
+            <li>Password rotations</li>
+            <li>Spam filters</li>
+            <li>Desktop-based anti-virus/anti-spam applications</li>
+        </ul>
+        <p>
+            Similarly, a service provider ensures email security by using strong password and access control mechanisms
+            on an email server; encrypting and digitally signing email messages when in the inbox or in transit to or
+            from a subscriber email address. It also implements firewall and software-based spam filtering applications
+            to restrict unsolicited, untrustworthy and malicious email messages from delivery to a user’s inbox.
+        </p>
+        <h3>Secure Sockets Layer (SSL)</h3>
+        <p>
+            SSL is the standard for Internet security. You can use SSL to communicate with LDAP clients, as well as
+            with replica LDAP servers. You can use client authentication in addition to server authentication to
+            provide additional security to your SSL connections. Client authentication requires that the LDAP client
+            present a digital certificate that confirms the client's identity to the server before a connection is
+            established.
+        </p>
+        <h3>Transport Layer Security (TLS)</h3>
+        <p>
+            TLS is designed as a successor to SSL and uses the same cryptographic methods but supports more
+            cryptographic algorithms. TLS enables the server to receive secure and unsecure communications from the
+            client over the default port, 389. For secure communications the client must use the StartTLS extended
+            operation.
+        </p>
+        <h3>Pretty Good Privacy (PGP)</h3>
+        <p>
+            Pretty Good Privacy (PGP) is an encryption program that provides cryptographic privacy and authentication
+            for data communication. PGP is used for signing, encrypting, and decrypting texts, e-mails, files,
+            directories, and whole disk partitions and to increase the security of e-mail communications.
+        </p>
+        <img src="images/pretty-good-privacy.png" alt="" />
+        <h3>Signature</h3>
+        <p>
+            An e-mail signature is a block of text that is appended to the end of an e-mail message you send.
+            Generally, a signature is used to provide the recipient with your name, e-mail address, business contact
+            information, or Web site URL. Some people, however, will use a signature to sign off their e-mail message
+            with a closing statement, funny quote or other message. A signature file, or sig as it is often called, can
+            easily be created in most e-mail clients.
+        </p>
+        <h3>Spam</h3>
+        <p>
+            Email spam, also known as junk email, is unsolicited messages sent in bulk by email (spamming).
+        </p>
+        <p>
+            Depending on the recipient's culture, email sent without permission—such as an "opt-in"—is likely to be
+            viewed as unwelcome spam.
+        </p>
+        <h3>Blacklist</h3>
+        <p>
+            An email blacklist is a real-time database that determines if an IP address is sending email that could be
+            considered spam. Many blacklists exist, all with a common goal of keeping spammy emails out of peoples’
+            inboxes.
+        </p>
+        <h3>Greylist</h3>
+        <p>
+            Greylisting is a method of defending e-mail users against spam. A mail transfer agent (MTA) using
+            greylisting will "temporarily reject" any email from a sender it does not recognize. If the mail is
+            legitimate, the originating server will try again after a delay, and if sufficient time has elapsed, the
+            email will be accepted.
+        </p>
+        <h3>Spam filter</h3>
+        <p>
+            A spam filter is a program that is used to detect unsolicited and unwanted email and prevent those messages
+            from getting to a user's inbox. Like other types of filtering programs, a spam filter looks for certain
+            criteria on which it bases judgments. For example, the simplest and earliest versions (such as the one
+            available with Microsoft's Hotmail) can be set to watch for particular words in the subject line of
+            messages and to exclude these from the user's inbox. This method is not especially effective, too often
+            omitting perfectly legitimate messages (these are called false positives) and letting actual spam through.
+            More sophisticated programs, such as Bayesian filters or other heuristic filters, attempt to identify spam
+            through suspicious word patterns or word frequency.
+        </p>
+
+        <h1>Practical part</h1>
+
+    </main>
+</body>
+<style>
+    body {
+        background: #fafafa;
+        color: #363636;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0 10%;
+    }
+
+    h1 {
+        text-align: left;
+        margin-left: -5%;
+    }
+
+    header,
+    h2 {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    h4 {
+        display: inline;
+    }
+
+    li {
+        margin: 15px;
+    }
+
+    img {
+        display: block;
+        width: 90%;
+        margin: 15px auto;
+    }
+
+    table {
+        background: #fcfcfc;
+        margin: 20px auto;
+        border: 1px solid #333333;
+        text-align: center;
+        border-collapse: collapse;
+        border-spacing: 0px;
+    }
+
+    tr>* {
+        padding: 5px;
+        border: 1px solid #5a5a5a;
+    }
+
+    thead {
+        background: #a5a5a5;
+        font-weight: bold;
+    }
+</style>
+
+</html>
