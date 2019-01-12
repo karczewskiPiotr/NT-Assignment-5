@@ -809,18 +809,39 @@
                             </figure>
                         </li>
                         <li>
-                            <p></p>
+                            <p>Running <code>ipconfig /displaydns</code> in the cmd returns a long list of records</p>
                             <figure>
-                                <img src="" alt="" />
-                                <figcaption></figcaption>
+                                <img src="images/2_1_1_dns_ipconfig.png" alt="" />
+                                <figcaption>Beginning of the records</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>Changed the DNS</p>
+                            <figure>
+                                <img src="images/2_1_1_after_change.png" alt="" />
+                                <figcaption>After the change</figcaption>
                             </figure>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <h4></h4>
+                    <h4>Using <code>nslookup, dig, host</code></h4>
                     <hr />
                     <ul>
+                        <li>
+                            <p>Using <code>nslookup</code> find the domain names and corresponding IP adresses</p>
+                            <figure>
+                                <img src="images/2_1_2_1_nslookup_domain.png" alt="" />
+                                <figcaption>
+                                    Domain names and adresses in lodz.pl domain cannot be obtained if not done from
+                                    edurom
+                                </figcaption>
+                            </figure>
+                            <figure>
+                                <img src="images/2_1_2_1_nslookup.png" alt="" />
+                                <figcaption>Exemplary domains names and adresses in lodz.pl</figcaption>
+                            </figure>
+                        </li>
                         <li>
                             <p></p>
                             <figure>
@@ -831,40 +852,38 @@
                     </ul>
                 </li>
                 <li>
-                    <h4></h4>
+                    <h4>Using <code>ipconfig /flushdns</code> to clean DNS memory</h4>
                     <hr />
-                    <ul>
-                        <li>
-                            <p></p>
-                            <figure>
-                                <img src="" alt="" />
-                                <figcaption></figcaption>
-                            </figure>
-                        </li>
-                    </ul>
+                    <figure>
+                        <img src="images/2_1_2_5_dnsflush.png" alt="" />
+                        <figcaption>Result of DNS flush</figcaption>
+                    </figure>
                 </li>
                 <li>
-                    <h4></h4>
+                    <h4>Using <i>hosts</i></h4>
                     <hr />
                     <ul>
                         <li>
-                            <p></p>
+                            <p>We had to find the IP address of <i>msn.com</i></p>
                             <figure>
-                                <img src="" alt="" />
-                                <figcaption></figcaption>
+                                <img src="images/2_1_2_6_msnip.png" alt="" />
+                                <figcaption>
+                                    IP Address of msn.com
+                                </figcaption>
+                            </figure> 
+                        </li>
+                        <li>
+                            <p>Edit the <i>host</i> file located in in C:\Windows\System32\drivers\etc</p>
+                            <figure>
+                                <img src="images/2_1_2_6_hostsfile.png" alt="" />
+                                <figcaption>Edited hosts file</figcaption>
                             </figure>
                         </li>
-                    </ul>
-                </li>
-                <li>
-                    <h4></h4>
-                    <hr />
-                    <ul>
                         <li>
-                            <p></p>
+                            <p>And the result was</p>
                             <figure>
-                                <img src="" alt="" />
-                                <figcaption></figcaption>
+                                <img src="images/2_1_2_6_result.png" alt="" />
+                                <figcaption>Result in Chrome after editing hosts</figcaption>
                             </figure>
                         </li>
                     </ul>
@@ -906,7 +925,12 @@
         }
 
         figure > img {
-            width: 50%;
+            width: 70%;
+        }
+
+        figcaption {
+            color: #838383;
+            font-size: 0.8em;
         }
 
         table {
