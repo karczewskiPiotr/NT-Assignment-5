@@ -833,7 +833,7 @@
                             <figure>
                                 <img src="images/2_1_2_1_nslookup_domain.png" alt="" />
                                 <figcaption>
-                                    Domain names and adresses in lodz.pl domain cannot be obtained if not done from
+                                    Domain names and adresses in lodz.pl domain cannot be obtained rmeotely, not from
                                     edurom
                                 </figcaption>
                             </figure>
@@ -843,13 +843,44 @@
                             </figure>
                         </li>
                         <li>
-                            <p></p>
+                            <p>Using <code>nslookup, dig, host</code> to find DNS information about <i>paris.edu</i></p>
                             <figure>
-                                <img src="" alt="" />
-                                <figcaption></figcaption>
+                                <img src="images/2_1_2_2_nslookup.png" alt="" />
+                                <figcaption><i>paris.edu</i> nslookup</figcaption>
+                            </figure>
+                            <figure>
+                                <img src="images/2_1_2_2_dighost.png" alt="" />
+                                <figcaption><i>paris.edu</i> dig, host</figcaption>
+                            </figure>
+                            <figure>
+                                <img src="images/2_1_2_2_digany.png" alt="" />
+                                <figcaption><i>paris.edu</i> dig with 'any' parameter</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>Using <code>nslookup, dig, host</code> to find DNS information about <i>floraargentina.edu.ar</i></p>
+                            <figure>
+                                <img src="images/2_1_2_3_nslookup.png" alt="" />
+                                <figcaption><i>floraargentina.edu.ar</i> nslookup</figcaption>
+                            </figure>
+                            <figure>
+                                <img src="images/2_1_2_3_hostdig.png" alt="" />
+                                <figcaption><i>floraargentina.edu.ar</i> dig, host</figcaption>
+                            </figure>
+                            <figure>
+                                <img src="images/2_1_2_3_digany.png" alt="" />
+                                <figcaption><i>floraargentina.edu.ar</i> dig with 'any' parameter</figcaption>
                             </figure>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <h4>Verifying DNS localhost assignment in the <i>hosts</i> file</h4>
+                    <hr />
+                    <figure>
+                        <img src="images/2_1_2_4_hostsfile.png" alt="" />
+                        <figcaption>We can see that the localhost is assigned to 127.0.0.1</figcaption>
+                    </figure>
                 </li>
                 <li>
                     <h4>Using <code>ipconfig /flushdns</code> to clean DNS memory</h4>
@@ -867,13 +898,11 @@
                             <p>We had to find the IP address of <i>msn.com</i></p>
                             <figure>
                                 <img src="images/2_1_2_6_msnip.png" alt="" />
-                                <figcaption>
-                                    IP Address of msn.com
-                                </figcaption>
-                            </figure> 
+                                <figcaption>IP Address of msn.com</figcaption>
+                            </figure>
                         </li>
                         <li>
-                            <p>Edit the <i>host</i> file located in in C:\Windows\System32\drivers\etc</p>
+                            <p>Edit the <i>hosts</i> file located in in C:\Windows\System32\drivers\etc</p>
                             <figure>
                                 <img src="images/2_1_2_6_hostsfile.png" alt="" />
                                 <figcaption>Edited hosts file</figcaption>
@@ -884,6 +913,122 @@
                             <figure>
                                 <img src="images/2_1_2_6_result.png" alt="" />
                                 <figcaption>Result in Chrome after editing hosts</figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            <h2>Mail System</h2>
+            <ol>
+                <li>
+                    <h4>Configuring Thunderbird to work with studife</h4>
+                    <hr />
+                    <ul>
+                        <li>
+                            <p>Turn on IMAP in Gmail, enter your username and password.</p>
+                            <figure>
+                                <img src="images/2_2_1_thunderbird.png" alt="" />
+                                <figcaption>Configured Thunderbird</figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>Sending an email to an non-existent server</h4>
+                    <hr />
+                    <ul>
+                        <li>
+                            <p>Write a simple email</p>
+                            <figure>
+                                <img src="images/2_2_2_1_mailserver.png" alt="" />
+                                <figcaption>Simple email to an non-existent server</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>A message is sent back informing us that this server does not exist.</p>
+                            <figure>
+                                <img src="images/2_2_2_1_result.png" alt="" />
+                                <figcaption>This server does not exist - Host or domain name not found</figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>Sending an email to a non-existent user on an existent mail server</h4>
+                    <hr />
+                    <ul>
+                        <li>
+                            <p>We have first verified that an email "nonexistentuser314@gmail.com" is not taken.</p>
+                            <p>Then, we sent a simple message to this email.</p>
+                            <figure>
+                                <img src="images/2_2_2_2_user.png" alt="" />
+                                <figcaption>A simple email to a non-existent user</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>Again, a message was sent back</p>
+                            <figure>
+                                <img src="images/2_2_2_2_result.png" alt="" />
+                                <figcaption>
+                                    The resultant message - The email account that you tried to reach does not exist.
+                                </figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>Sending an email to a server which is not an email server</h4>
+                    <hr />
+                    <ul>
+                        <li>
+                            <p>
+                                First, through trial and error we have found a server which was not an email server:
+                                <i>sites.google.com</i>
+                            </p>
+                            <figure>
+                                <img src="images/2_2_2_3_notamailserver.png" alt="" />
+                                <figcaption>
+                                    sites.google.com is not an email server, because the mail server for this address
+                                    was not determined by nslookup MX
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>Send a simple mail to this server</p>
+                            <figure>
+                                <img src="images/2_2_2_3_notamailserver.png" alt="" />
+                                <figcaption>Simple mail to user@sites.google.com</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>The message that was sent back</p>
+                            <figure>
+                                <img src="images/2_2_2_3_notamailserver.png" alt="" />
+                                <figcaption>Simple mail to user@sites.google.com</figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>Analyzing mails using wireshark</h4>
+                    <hr />
+                    <ul>
+                        <li>
+                            <p>
+                                First, we send a mail to our colleagues at ife03.
+                            </p>
+                            <figure>
+                                <img src="images/2_2_3_wireshark_sent.png" alt="" />
+                                <figcaption>
+                                    An email sent to ife03
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <p>Then we send an email to ourselves, turn on wireshark and download it</p>
+                            <figure>
+                                <img src="images/2_2_3_wireshark_receive.png" alt="" />
+                                <figcaption>A received email</figcaption>
                             </figure>
                         </li>
                     </ul>
